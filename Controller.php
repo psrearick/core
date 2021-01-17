@@ -6,7 +6,7 @@ namespace core;
 
 use core\middleware\Middleware;
 
-final class Controller
+class Controller
 {
     public string $layout = 'main';
     public string $action = '';
@@ -17,19 +17,27 @@ final class Controller
     protected array $middleware = [];
 
     /**
-     * @param $layout
+     * @param string $layout
      */
-    public function setLayout(string $layout): void
+    final public function setLayout(string $layout): void
     {
         $this->layout = $layout;
     }
 
-    public function render(string $view, array $params = []): string
+    /**
+     * @param string $view
+     * @param array $params
+     * @return string
+     */
+    final public function render(string $view, array $params = []): string
     {
         return Application::$app->view->render($view, $params);
     }
 
-    public function registerMiddleware(Middleware $middleware): void
+    /**
+     * @param Middleware $middleware
+     */
+    final public function registerMiddleware(Middleware $middleware): void
     {
         $this->middleware[] = $middleware;
     }
@@ -37,7 +45,7 @@ final class Controller
     /**
      * @return Middleware[]
      */
-    public function getMiddleware(): array
+    final public function getMiddleware(): array
     {
         return $this->middleware;
     }
