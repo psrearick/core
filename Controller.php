@@ -1,10 +1,10 @@
 <?php
 
 
-namespace app;
+namespace core;
 
 
-use app\middleware\Middleware;
+use core\middleware\Middleware;
 
 final class Controller
 {

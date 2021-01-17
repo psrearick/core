@@ -1,10 +1,10 @@
 <?php
 
 
-namespace app\database;
+namespace core\database;
 
 
-use app\Application;
+use core\Application;
 use PDO;
 
 final class Database

@@ -1,10 +1,10 @@
 <?php
 
 
-namespace app\form;
+namespace core\form;
 
 
-use app\Model;
+use core\Model;
 
 final class SelectField extends BaseField
 {

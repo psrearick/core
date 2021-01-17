@@ -1,7 +1,7 @@
 <?php
 
 
-namespace app;
+namespace core;
 
 
 abstract class Model

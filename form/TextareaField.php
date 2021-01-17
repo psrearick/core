@@ -1,7 +1,7 @@
 <?php
 
 
-namespace app\form;
+namespace core\form;
 
 final class TextareaField extends BaseField
 {

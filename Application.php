@@ -1,8 +1,8 @@
 <?php
 
-namespace app;
+namespace core;
 
-use app\database\Database;
+use core\database\Database;
 use Exception;
 
 /**

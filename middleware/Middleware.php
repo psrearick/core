@@ -1,11 +1,10 @@
 <?php
 
 
-namespace app\middleware;
+namespace core\middleware;
 
 
 abstract class Middleware
 {
-
-    abstract public function execute();
+    abstract public function execute(): void;
 }

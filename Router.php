@@ -1,8 +1,8 @@
 <?php
 
-namespace app;
+namespace core;
 
-use app\exception\NotFoundException;
+use core\exception\NotFoundException;
 
 /**
  * Class Router
