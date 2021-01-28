@@ -39,11 +39,14 @@ final class SelectField extends BaseField
         }
         $field .= '</select>';
 
+        $name = $this->attribute;
+        if ($this->multiple) {
+            $name .= "[]";
+        }
         return sprintf($field,
-            $this->attribute,
+            $name,
             $this->attribute,
             $this->multiple ? 'multiple' : ""
-
         );
     }
 }

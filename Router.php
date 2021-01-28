@@ -2,6 +2,7 @@
 
 namespace core;
 
+use Closure;
 use core\exception\NotFoundException;
 
 /**
@@ -30,7 +31,7 @@ final class Router
      * @param $path
      * @param $callback
      */
-    public function get(string $path, Callable $callback): void
+    public function get(string $path, array $callback): void
     {
         $this->routes['get'][$this->buildPath($path)] = $callback;
     }
@@ -39,7 +40,7 @@ final class Router
      * @param $path
      * @param $callback
      */
-    public function post(string $path, Callable $callback): void
+    public function post(string $path, array $callback): void
     {
         $this->routes['post'][$this->buildPath($path)] = $callback;
     }
@@ -108,7 +109,6 @@ final class Router
         $callback = false;
         $callbackVars = false;
 
-
         foreach ($this->routes[$method] as $route => $routeCallback) {
             $vars = $this->match_wild_cards($route);
             if (!empty($vars)) {
@@ -124,6 +124,7 @@ final class Router
         if ($callback === false) {
             throw new NotFoundException();
         }
+
         if (is_string($callback)){
             return Application::$app->view->render($callback);
         }

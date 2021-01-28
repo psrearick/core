@@ -57,7 +57,7 @@ final class Application
     }
 
     /**
-     *
+     * Run Application
      */
     public function run(): void
     {

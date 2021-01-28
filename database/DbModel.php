@@ -3,17 +3,27 @@
 
 namespace core\database;
 
+use app\core\database\relationships\BelongsToMany;
 use core\Application;
 use core\Model;
 
 abstract class DbModel extends Model
 {
-
     abstract public function table(): string;
 
     abstract public function attributes(): array;
 
     abstract public function primaryKey(): string;
+
+    public ?int $id = null;
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
 
     /**
      * @return bool
@@ -31,7 +41,6 @@ abstract class DbModel extends Model
             $statement->bindValue(":$attribute", $this->{$attribute});
         }
         $statement->execute();
-
         return true;
     }
 
@@ -90,14 +99,21 @@ abstract class DbModel extends Model
         }
 
         $statement->execute();
-        return $statement->fetchAll();
+        $data = $statement->fetchAll();
+        $all = [];
+        foreach ($data as $record) {
+            $model = $this->newInstance();
+            $model->loadData($record);
+            $all[] = $model;
+        }
+        return $all;
     }
 
     /**
      * @param array $cond
      * @return DbModel
      */
-    final public function findOne(array $cond)
+    final public function findOne(array $cond): DbModel
     {
         $table = $this->table();
         $attributes  = array_keys($cond);
@@ -114,9 +130,28 @@ abstract class DbModel extends Model
         return $this;
     }
 
+    /**
+     * @param string $sql
+     * @return object
+     */
     public static function prepare(string $sql): object
     {
         return Application::$app->db->pdo->prepare($sql);
     }
 
+    /**
+     * @param string $related
+     * @param string $table
+     * @param string $relatedKey
+     * @param string $foreignKey
+     * @param array $columns
+     * @return BelongsToMany
+     */
+    public function belongsToMany(
+        string $related, string $table,
+        string $relatedKey, string $foreignKey, array $columns = []
+    ): BelongsToMany
+    {
+        return new BelongsToMany($this, (new $related), $table, $relatedKey, $foreignKey, $columns);
+    }
 }

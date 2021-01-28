@@ -109,13 +109,19 @@ final class Request
 
         if ($this->isGet()) {
             foreach ($_GET as $key => $value) {
-                $body[$key] = filter_input(INPUT_GET, $key, FILTER_SANITIZE_SPECIAL_CHARS);
+                $body[$key] = filter_input(INPUT_GET, $key, FILTER_SANITIZE_SPECIAL_CHARS, FILTER_FORCE_ARRAY);
             }
         }
 
         if ($this->isPost()) {
             foreach ($_POST as $key => $value) {
-                $body[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS);
+                $filtered_value = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS, FILTER_FORCE_ARRAY);
+                $value_count = count($filtered_value);
+                if ($value_count === 0) {
+                    $body[$key] = "";
+                    continue;
+                }
+                $body[$key] = $value_count === 1 ? $filtered_value[0] : $filtered_value;
             }
         }
 

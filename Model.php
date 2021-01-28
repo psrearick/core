@@ -15,13 +15,22 @@ abstract class Model
 
 
     /**
+     * @return Model
+     */
+    public function newInstance(): Model
+    {
+        return new $this;
+    }
+
+    /**
      * @param $data
      */
-    final public function loadData(array $data): void
+    final public function loadData(?array $data): void
     {
         if (!$data) {
             return;
         }
+
         foreach ($data as $key => $value) {
             if (property_exists($this, $key)) {
                 $this->{$key} = $value;
